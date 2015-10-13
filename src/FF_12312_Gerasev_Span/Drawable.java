@@ -1,4 +1,4 @@
-package FF_12312_Gerasev_PG;
+package FF_12312_Gerasev_Span;
 
 import java.awt.Graphics;
 

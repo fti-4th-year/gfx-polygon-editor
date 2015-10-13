@@ -1,11 +1,11 @@
-package FF_12312_Gerasev_PG;
+package FF_12312_Gerasev_Span;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
 public class PolygonEditor extends JFrame {
 	
@@ -19,15 +19,15 @@ public class PolygonEditor extends JFrame {
 		scene = new Scene();
 		
 		panel = new EditorPanel(scene);
-		panel.setPreferredSize(new Dimension(800, 600));
 		
-		handle = new EditorHandle(scene, this, panel);
+		handle = new EditorHandle(scene, this, panel, panel.getImage());
 		
 		new EditorMenu(handle);
 		
-		setTitle("Fill");
-		add(panel);
-		pack();
+		setTitle("Polygon Editor");
+		add(new JScrollPane(panel));
+		
+		setSize(800, 600);
 		setLocationRelativeTo(null);
 		
 		addWindowListener(new WindowAdapter() {

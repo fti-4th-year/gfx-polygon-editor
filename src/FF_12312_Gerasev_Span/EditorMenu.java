@@ -1,4 +1,4 @@
-package FF_12312_Gerasev_PG;
+package FF_12312_Gerasev_Span;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -12,6 +12,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 
@@ -19,6 +20,9 @@ public class EditorMenu {
 	private JMenuBar menu_bar;
 	private JToolBar toolbar;
 	private EditorHandle _handle;
+	
+	private JToggleButton draw_poly;
+	private JToggleButton fill;
 	
 	public EditorMenu(EditorHandle handle) {
 		_handle = handle;
@@ -151,6 +155,35 @@ public class EditorMenu {
 				showAbout();
 			}
 		}));
+		draw_poly = makeToggleButton("resources/Modify.gif", "Draw polygon");
+		fill = makeToggleButton("resources/Retort.gif", "Fill");
+		draw_poly.setSelected(true);
+		draw_poly.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(draw_poly.isSelected()) {
+					fill.setSelected(false);
+					_handle.getScene().setMode(Scene.DRAW);
+				} else {
+					draw_poly.setSelected(true);
+				}
+				_handle.getPanel().repaint();
+			}
+		});
+		fill.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(fill.isSelected()) {
+					draw_poly.setSelected(false);
+					_handle.getScene().setMode(Scene.FILL);
+				} else {
+					fill.setSelected(true);
+				}
+				_handle.getPanel().repaint();
+			}
+		});
+		toolbar.add(draw_poly);
+		toolbar.add(fill);
 		toolbar.setFloatable(false);
 		
 		_handle.getFrame().add(toolbar, BorderLayout.PAGE_START);
@@ -173,6 +206,25 @@ public class EditorMenu {
 		}
 		
 		button.addActionListener(listener);
+		
+		return button;
+	}
+	
+	private JToggleButton makeToggleButton(String image_path, String text) {
+		//Look for the image.
+		String imgLocation = image_path;
+		URL imageURL = getClass().getResource(imgLocation);
+		
+		//Create and initialize the button.
+		JToggleButton button = new JToggleButton();
+		button.setToolTipText(text);
+		
+		if (imageURL != null) {
+			button.setIcon(new ImageIcon(imageURL, text));
+		} else {
+			button.setText(text);
+			System.err.println("resource not found: " + imgLocation);
+		}
 		
 		return button;
 	}

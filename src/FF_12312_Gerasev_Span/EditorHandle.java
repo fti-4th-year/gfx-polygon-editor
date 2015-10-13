@@ -1,4 +1,7 @@
-package FF_12312_Gerasev_PG;
+package FF_12312_Gerasev_Span;
+
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -9,6 +12,7 @@ public class EditorHandle {
 	private Scene _scene;
 	private JFrame _frame;
 	private JPanel _panel;
+	private BufferedImage _image;
 	private JFileChooser chooser;
 	private String file;
 	private int undone;
@@ -25,13 +29,19 @@ public class EditorHandle {
 		return _panel;
 	}
 	
-	public EditorHandle(Scene scene, JFrame frame, JPanel panel) {
+	public EditorHandle(Scene scene, JFrame frame, JPanel panel, BufferedImage image) {
 		_scene = scene;
 		_frame = frame;
 		_panel = panel;
+		_image = image;
 		chooser = new JFileChooser();
 		file = null;
 		undone = 0;
+	}
+	
+	private void clearImage() {
+		_image.getGraphics().setColor(new Color(0xffffff));
+		_image.getGraphics().fillRect(0, 0, _image.getWidth(), _image.getHeight());
 	}
 	
 	public void create() {
@@ -44,6 +54,9 @@ public class EditorHandle {
 			_scene.setPolygon(new Polygon());
 			_scene.setLine(null);
 			_scene.setDirty(false);
+			
+			clearImage();
+			
 			_panel.repaint();
 			undone = 0;
 			file = null;
@@ -51,10 +64,16 @@ public class EditorHandle {
 	}
 	
 	public void open() {
-		int option = chooser.showOpenDialog(_frame);
-		if (option == JFileChooser.APPROVE_OPTION) {
-            openFile(chooser.getSelectedFile().getPath());
-        }
+		int n = JOptionPane.OK_OPTION;
+		if(_scene.getDirty()) {
+			n = askSave();
+		}
+		if(n != JOptionPane.CANCEL_OPTION) {
+			int option = chooser.showOpenDialog(_frame);
+			if (option == JFileChooser.APPROVE_OPTION) {
+	            openFile(chooser.getSelectedFile().getPath());
+	        }
+		}
 	}
 	
 	public void openFile(String path) {
@@ -72,6 +91,8 @@ public class EditorHandle {
 		
 		file = path;
 		_scene.setDirty(false);
+		
+		clearImage();
 		
 		if(storage != null) {
 			_scene.setStorage(storage);
@@ -155,6 +176,7 @@ public class EditorHandle {
 			
 		} else if(undone < _scene.getStorage().getSize()) {
 			_scene.getStorage().removeLast();
+			clearImage();
 			changed = true;
 		}
 		
