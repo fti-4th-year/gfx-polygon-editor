@@ -1,4 +1,4 @@
-package FF_12312_Gerasev_Span;
+package editor;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 public class Polygon implements Drawable, ImageDrawable {
 	private ArrayList<Point> vertices;
-	private int width = 3;
+	private int width = 1;
 	
 	public Polygon() {
 		vertices = new ArrayList<Point>();

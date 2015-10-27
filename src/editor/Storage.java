@@ -1,4 +1,4 @@
-package FF_12312_Gerasev_Span;
+package editor;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

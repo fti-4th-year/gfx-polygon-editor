@@ -1,4 +1,4 @@
-package FF_12312_Gerasev_Span;
+package editor;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 public class Line implements Drawable, ImageDrawable {
 	private Point _start;
 	private Point _end;
-	private int width = 3;
+	private int width = 1;
 	
 	public Line(Point start, Point end) {
 		_start = new Point(start);
